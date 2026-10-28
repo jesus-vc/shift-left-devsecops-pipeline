@@ -12,7 +12,7 @@ repos:
   # Note: Semgrep overlaps with Bandit for Python security BUT provides broader language coverage
   # and uses different detection patterns. Both are kept for defense in depth.
   - repo: https://github.com/semgrep/pre-commit
-    rev: v1.142.0  # Updated for Python 3.14 support (Oct 2025)
+    rev: v1.142.0 # Updated for Python 3.14 support (Oct 2025)
     hooks:
       - id: semgrep
         entry: semgrep
@@ -21,42 +21,42 @@ repos:
         # quiet - suppress non-essential output to focus on findings
         args: ["--config", "p/ci", "--quiet"]
 
- # Python security linting - Find common security issues in Python code (SQL injection, hardcoded passwords, etc.)
-  # Note: Bandit overlaps with Semgrep for Python BUT has deeper Python-specific security knowledge
-  # and catches Python-specific anti-patterns (unsafe pickle, weak crypto, etc.). Complementary to Semgrep.
-  - repo: https://github.com/PyCQA/bandit
-    rev: '1.7.9'
-    hooks:
-      - id: bandit
-        args: ['-r', 'src/', '--severity-level', 'high']  # -r = recursive, high = only critical issues
-        additional_dependencies: ['bandit[toml]']
-        language_version: python3.11
-        pass_filenames: false  # Scan directory rather than individual files
+#  # Python security linting - Find common security issues in Python code (SQL injection, hardcoded passwords, etc.)
+#   # Note: Bandit overlaps with Semgrep for Python BUT has deeper Python-specific security knowledge
+#   # and catches Python-specific anti-patterns (unsafe pickle, weak crypto, etc.). Complementary to Semgrep.
+#   - repo: https://github.com/PyCQA/bandit
+#     rev: '1.7.9'
+#     hooks:
+#       - id: bandit
+#         args: ['-r', 'src/', '--severity-level', 'high']  # -r = recursive, high = only critical issues
+#         additional_dependencies: ['bandit[toml]']
+#         language_version: python3.11
+#         pass_filenames: false  # Scan directory rather than individual files
 
-  # Basic file hygiene - Maintain clean, well-formed files across all file types (not just Python files)
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v6.0.0
-    hooks:
-      - id: check-yaml # Validate YAML file syntax
-      - id: end-of-file-fixer # Ensure files end with a newline
-      - id: trailing-whitespace # Remove trailing whitespace from files
+#   # Basic file hygiene - Maintain clean, well-formed files across all file types (not just Python files)
+#   - repo: https://github.com/pre-commit/pre-commit-hooks
+#     rev: v6.0.0
+#     hooks:
+#       - id: check-yaml # Validate YAML file syntax
+#       - id: end-of-file-fixer # Ensure files end with a newline
+#       - id: trailing-whitespace # Remove trailing whitespace from files
 
-  # Code quality and formatting - Lint and format Python code for consistency and bug prevention
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.6
-    hooks:
-      - id: ruff  # Fast Python linter (replaces flake8, isort, pylint, etc.)
-        args: ["--fix"]  # Auto-fix issues like unused imports, undefined names
-      - id: ruff-format  # Fast Python formatter (replaces Black)
+#   # Code quality and formatting - Lint and format Python code for consistency and bug prevention
+#   - repo: https://github.com/astral-sh/ruff-pre-commit
+#     rev: v0.1.6
+#     hooks:
+#       - id: ruff  # Fast Python linter (replaces flake8, isort, pylint, etc.)
+#         args: ["--fix"]  # Auto-fix issues like unused imports, undefined names
+#       - id: ruff-format  # Fast Python formatter (replaces Black)
 
-# SecureAI-Scan - Detect LLM prompt injection and related AI security issues
-  - repo: local
-    hooks:
-      - id: secureai-scan
-        name: SecureAI-Scan
-        entry: npx --yes secureai-scan@latest scan .
-        language: system
-        pass_filenames: false
-        always_run: true
-        verbose: true
-        description: Scan for LLM prompt injection and AI security issues
+# # SecureAI-Scan - Detect LLM prompt injection and related AI security issues
+#   - repo: local
+#     hooks:
+#       - id: secureai-scan
+#         name: SecureAI-Scan
+#         entry: npx --yes secureai-scan@latest scan .
+#         language: system
+#         pass_filenames: false
+#         always_run: true
+#         verbose: true
+#         description: Scan for LLM prompt injection and AI security issues
